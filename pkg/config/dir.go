@@ -10,7 +10,6 @@ const (
 	EnvConfigDir = "EMR_CONFIG_DIR"
 
 	appData       = "AppData"
-	localAppData  = "LocalAppData"
 	xdgConfigHome = "XDG_CONFIG_HOME"
 
 	configDirName = "emergency-credentials-receive"
