@@ -37,3 +37,7 @@ You can set them as environment variables:
 export E2E_PASSBOLT_PASSPHRASE="..."
 export E2E_PASSBOLT_PRIVATE_KEY="$(cat /path/to/private.key)"
 ```
+
+## Resources
+
+- Architecture documentation https://kb.vshn.ch/oc4/references/architecture/emergency_credentials.html
