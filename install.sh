@@ -110,7 +110,7 @@ trap cleanup EXIT ERR
 
 pushd "$tmpDir" >& /dev/null
 
-opsys=linux
+opsys=windows
 if [[ "$OSTYPE" == linux* ]]; then
   opsys=linux
 elif [[ "$OSTYPE" == darwin* ]]; then
