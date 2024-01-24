@@ -22,6 +22,11 @@ test: ## Run tests
 	go test ./... -coverprofile cover.tmp.out
 	cat cover.tmp.out | grep -v "zz_generated.deepcopy.go" > cover.out
 
+.PHONY: test-e2e
+test-e2e: build ## Run e2e tests
+	(cd e2e && ./interactive.tcl)
+	(cd e2e && ./non-interactive.tcl)
+
 .PHONY: build
 build: generate fmt vet $(BIN_FILENAME) ## Build manager binary
 
