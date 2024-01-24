@@ -13,7 +13,7 @@ require (
 	github.com/passbolt/go-passbolt v0.7.0
 	golang.org/x/term v0.16.0
 	gopkg.in/yaml.v3 v3.0.1
-	sigs.k8s.io/yaml v1.1.0
+	sigs.k8s.io/yaml v1.4.0
 )
 
 require (
@@ -66,5 +66,4 @@ require (
 	golang.org/x/sys v0.16.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
-	gopkg.in/yaml.v2 v2.3.0 // indirect
 )
