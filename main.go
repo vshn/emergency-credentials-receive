@@ -315,6 +315,9 @@ func main() {
 		os.Exit(1)
 	}
 	lf("Wrote kubeconfig to %q. Use with:\n\n", kcFileName)
+	lln(boldStyle.Render("##", "The cluster might require you to use a jump host:", clusterOverviewPage))
+	lln(boldStyle.Render("#", "ssh -D 12000 -q -N $JUMPHOST"))
+	lln(boldStyle.Render("#", "export HTTPS_PROXY=socks5://localhost:12000"))
 	lln(boldStyle.Render(fmt.Sprintf("export KUBECONFIG=%q", kcFileName)))
 	lln(boldStyle.Render("kubectl get nodes"))
 }
