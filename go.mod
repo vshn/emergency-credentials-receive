@@ -11,7 +11,7 @@ require (
 	github.com/google/go-jsonnet v0.20.0
 	github.com/minio/minio-go/v7 v7.0.66
 	github.com/passbolt/go-passbolt v0.7.0
-	golang.org/x/term v0.16.0
+	golang.org/x/term v0.18.0
 	gopkg.in/yaml.v3 v3.0.1
 	sigs.k8s.io/yaml v1.4.0
 )
@@ -62,7 +62,7 @@ require (
 	golang.org/x/crypto v0.18.0 // indirect
 	golang.org/x/net v0.20.0 // indirect
 	golang.org/x/sync v0.6.0 // indirect
-	golang.org/x/sys v0.16.0 // indirect
+	golang.org/x/sys v0.18.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 )
