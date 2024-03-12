@@ -1,6 +1,6 @@
 module github.com/vshn/emergency-credentials-receive
 
-go 1.21.6
+go 1.22.1
 
 require (
 	github.com/Masterminds/sprig/v3 v3.2.3
