@@ -7,7 +7,7 @@ require (
 	github.com/charmbracelet/bubbles v0.17.1
 	github.com/charmbracelet/bubbletea v0.25.0
 	github.com/charmbracelet/lipgloss v0.9.1
-	github.com/cli/cli/v2 v2.42.1
+	github.com/cli/cli/v2 v2.46.0
 	github.com/google/go-jsonnet v0.20.0
 	github.com/minio/minio-go/v7 v7.0.66
 	github.com/passbolt/go-passbolt v0.7.0
@@ -62,7 +62,7 @@ require (
 	golang.org/x/crypto v0.18.0 // indirect
 	golang.org/x/net v0.20.0 // indirect
 	golang.org/x/sync v0.6.0 // indirect
-	golang.org/x/sys v0.16.0 // indirect
+	golang.org/x/sys v0.18.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 )
