@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"io"
 	"io/fs"
+	"net/http"
 	"os"
 	"os/signal"
 	"strings"
@@ -45,6 +46,7 @@ var sampleConfig = `
 
 const (
 	envVarPassphrase         = "EMR_PASSPHRASE"
+	envVarTOTPToken          = "EMR_TOTP_TOKEN"
 	envVarKubernetesEndpoint = "EMR_KUBERNETES_ENDPOINT"
 
 	defaultEndpoint           = "https://cloud.passbolt.com/vshn"
@@ -53,6 +55,8 @@ const (
 	defaultEmergencyCredentialsBucketConfigName = "emergency-cedentials-buckets"
 
 	clusterOverviewPage = "https://wiki.vshn.net/x/4whJF"
+
+	passboltMFACookieName = "passbolt_mfa"
 
 	userAgent = "emergency-credentials-receive/0.0.0"
 )
@@ -106,21 +110,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	passphrase := os.Getenv("EMR_PASSPHRASE")
-	if passphrase == "" && isTerminal {
-		pf, err := inputs.PassphraseInput("Enter your Passbolt passphrase", "")
-		if err != nil {
-			lln("Error retrieving passbolt passphrase: ", err)
-			os.Exit(1)
-		}
-		passphrase = pf
-	} else if passphrase == "" {
-		lln("Passphrase cannot be empty.")
-		lln("Provide interactively or set EMR_PASSPHRASE environment variable.")
-		os.Exit(1)
-	} else {
-		lln("Using passphrase from EMR_PASSPHRASE environment variable.")
-	}
+	passphrase := envOrPrompt(envVarPassphrase, "Passbolt passphrase", true)
 
 	if clusterId == "" {
 		cid, err := inputs.LineInput("Enter the ID of the cluster you want to access", "c-crashy-wreck-1234")
@@ -141,6 +131,7 @@ func main() {
 		lf("Error creating passbolt client: %v\n", err)
 		os.Exit(1)
 	}
+	client.MFACallback = mfaCallback
 
 	lln("Logging into passbolt...")
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
@@ -393,4 +384,69 @@ type encryptedToken struct {
 // encryptedTokenSecret is the JSON structure of an encrypted token secret.
 type encryptedTokenSecret struct {
 	Data string `json:"data"`
+}
+
+// mfaCallback is a callback function for the passbolt client to handle MFA challenges.
+// It will prompt the user for a TOTP token if needed.
+// It will return the MFA cookie if successful.
+// Currently only TOTP is supported, Passbolt does not support other MFA methods as of 05.04.2024.
+func mfaCallback(ctx context.Context, c *api.Client, res *api.APIResponse) (http.Cookie, error) {
+	var challenge api.MFAChallenge
+	if err := json.Unmarshal(res.Body, &challenge); err != nil {
+		return http.Cookie{}, fmt.Errorf("error parsing MFA Challenge: %w", err)
+	}
+	if challenge.Provider.TOTP == "" {
+		return http.Cookie{}, fmt.Errorf("server provided no TOTP provider, only TOTP is supported currently")
+	}
+
+	code := envOrPrompt(envVarTOTPToken, "Passbolt TOTP token", false)
+	if code == "" {
+		lln("Passbolt TOTP token is required.")
+		os.Exit(1)
+	}
+
+	raw, apiRes, err := c.DoCustomRequestAndReturnRawResponse(ctx, "POST", "mfa/verify/totp.json", "v2", api.MFAChallengeResponse{
+		TOTP: code,
+	}, nil)
+	if err != nil {
+		return http.Cookie{}, fmt.Errorf("error verifying MFA challenge: %w (api response: %+v, code: %d)", err, apiRes, raw.StatusCode)
+	}
+	// MFA worked so lets find the cookie and return it
+	cookieNames := make([]string, 0, len(raw.Cookies()))
+	for _, cookie := range raw.Cookies() {
+		cookieNames = append(cookieNames, cookie.Name)
+		if cookie.Name == passboltMFACookieName {
+			return *cookie, nil
+		}
+	}
+	return http.Cookie{}, fmt.Errorf("unable to find MFA cookie %q, cookies found: %v", passboltMFACookieName, cookieNames)
+}
+
+// envOrPrompt returns the value of an environment variable or prompts the user for input.
+// If the environment variable is empty, it will prompt the user for input.
+// If the environment variable is empty and the terminal is not interactive, it will exit the program with an error.
+// If the environment variable is not empty, it will return the value.
+func envOrPrompt(envVar, inputDesc string, mask bool) string {
+	in := os.Getenv(envVar)
+	if in == "" && isTerminal {
+		var pf string
+		var err error
+		if mask {
+			pf, err = inputs.PassphraseInput(fmt.Sprintf("Enter your %s", inputDesc), "")
+		} else {
+			pf, err = inputs.LineInput(fmt.Sprintf("Enter your %s", inputDesc), "")
+		}
+		if err != nil {
+			lf("Error retrieving %s: %s\n", inputDesc, err)
+			os.Exit(1)
+		}
+		in = pf
+	} else if in == "" {
+		lf("%s cannot be empty.\n", inputDesc)
+		lf("Provide interactively or set %q environment variable.\n", envVar)
+		os.Exit(1)
+	} else {
+		lf("Using TOTP token from %q environment variable.\n", envVar)
+	}
+	return in
 }
