@@ -9,6 +9,7 @@ set api_endpoint "https://api.lab-cloudscale-rma-0.appuio.cloud:6443"
 
 set passphrase [getenv_or_die "E2E_PASSBOLT_PASSPHRASE"]
 set private_key [getenv_or_die "E2E_PASSBOLT_PRIVATE_KEY"]
+set totp_key [getenv_or_die "E2E_PASSBOLT_TOTP_KEY_BASE32"]
 
 proc expect_prompt {prompt} {
   expect -exact "$prompt"
@@ -48,6 +49,11 @@ send -- "\r"
 log "Expecting cluster ID prompt"
 expect_prompt "Enter your cluster ID"
 send -- "$cluster_id"
+send -- "\r"
+
+log "Expecting TOTP prompt"
+expect_prompt "Passbolt TOTP token"
+send -- [totp_code_from_key $totp_key]
 send -- "\r"
 
 log "Expecting to have valid credentials"

@@ -24,3 +24,8 @@ proc getenv_or_die {var} {
   }
   return "$::env($var)"
 }
+
+proc totp_code_from_key {key} {
+  set otp [exec oathtool --totp --base32 $key]
+  return $otp
+}

@@ -24,10 +24,11 @@ jobs:
           go-version: ${{ env.GO_VERSION }}
 
       - name: Install expect
-        run: sudo apt-get -y install expect
+        run: sudo apt-get -y install expect oathtool
 
       - name: Run tests
         env:
           E2E_PASSBOLT_PASSPHRASE: ${{ secrets.E2E_PASSBOLT_PASSPHRASE }}
           E2E_PASSBOLT_PRIVATE_KEY: ${{ secrets.E2E_PASSBOLT_PRIVATE_KEY }}
+          E2E_PASSBOLT_TOTP_KEY_BASE32: ${{ secrets.E2E_PASSBOLT_TOTP_KEY_BASE32 }}
         run: make test test-e2e
