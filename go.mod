@@ -1,8 +1,8 @@
 module github.com/vshn/emergency-credentials-receive
 
-go 1.22
+go 1.23.0
 
-toolchain go1.22.1
+toolchain go1.24.1
 
 require (
 	github.com/Masterminds/sprig/v3 v3.2.3
@@ -13,7 +13,7 @@ require (
 	github.com/google/go-jsonnet v0.20.0
 	github.com/minio/minio-go/v7 v7.0.69
 	github.com/passbolt/go-passbolt v0.7.0
-	golang.org/x/term v0.19.0
+	golang.org/x/term v0.30.0
 	gopkg.in/yaml.v3 v3.0.1
 	sigs.k8s.io/yaml v1.4.0
 )
@@ -63,7 +63,7 @@ require (
 	golang.org/x/crypto v0.21.0 // indirect
 	golang.org/x/net v0.22.0 // indirect
 	golang.org/x/sync v0.6.0 // indirect
-	golang.org/x/sys v0.19.0 // indirect
+	golang.org/x/sys v0.31.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 )
