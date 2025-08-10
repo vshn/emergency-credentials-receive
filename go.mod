@@ -9,7 +9,7 @@ require (
 	github.com/charmbracelet/bubbles v0.18.0
 	github.com/charmbracelet/bubbletea v0.25.0
 	github.com/charmbracelet/lipgloss v0.10.0
-	github.com/cli/cli/v2 v2.47.0
+	github.com/cli/cli/v2 v2.63.1
 	github.com/google/go-jsonnet v0.20.0
 	github.com/minio/minio-go/v7 v7.0.69
 	github.com/passbolt/go-passbolt v0.7.0
