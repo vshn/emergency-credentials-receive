@@ -12,7 +12,7 @@ require (
 	github.com/cli/cli/v2 v2.47.0
 	github.com/google/go-jsonnet v0.20.0
 	github.com/minio/minio-go/v7 v7.0.69
-	github.com/passbolt/go-passbolt v0.7.0
+	github.com/passbolt/go-passbolt v0.7.2
 	golang.org/x/term v0.19.0
 	gopkg.in/yaml.v3 v3.0.1
 	sigs.k8s.io/yaml v1.4.0
