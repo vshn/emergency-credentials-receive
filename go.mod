@@ -11,7 +11,7 @@ require (
 	github.com/charmbracelet/lipgloss v0.10.0
 	github.com/cli/cli/v2 v2.47.0
 	github.com/google/go-jsonnet v0.20.0
-	github.com/minio/minio-go/v7 v7.0.69
+	github.com/minio/minio-go/v7 v7.0.95
 	github.com/passbolt/go-passbolt v0.7.0
 	golang.org/x/term v0.19.0
 	gopkg.in/yaml.v3 v3.0.1
