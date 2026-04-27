@@ -9,9 +9,9 @@ require (
 	github.com/charmbracelet/lipgloss v1.1.1-0.20250404203927-76690c660834
 	github.com/cli/cli/v2 v2.83.1
 	github.com/google/go-jsonnet v0.21.0
-	github.com/minio/minio-go/v7 v7.0.97
+	github.com/minio/minio-go/v7 v7.1.0
 	github.com/passbolt/go-passbolt v0.7.2
-	golang.org/x/term v0.37.0
+	golang.org/x/term v0.38.0
 	gopkg.in/yaml.v3 v3.0.1
 	sigs.k8s.io/yaml v1.6.0
 )
@@ -26,6 +26,7 @@ require (
 	github.com/ProtonMail/gopenpgp/v2 v2.9.0 // indirect
 	github.com/atotto/clipboard v0.1.4 // indirect
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
+	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/charmbracelet/colorprofile v0.3.3 // indirect
 	github.com/charmbracelet/x/ansi v0.11.2 // indirect
 	github.com/charmbracelet/x/cellbuf v0.0.14 // indirect
@@ -64,11 +65,13 @@ require (
 	github.com/rs/xid v1.6.0 // indirect
 	github.com/shopspring/decimal v1.4.0 // indirect
 	github.com/spf13/cast v1.10.0 // indirect
-	github.com/tinylib/msgp v1.5.0 // indirect
+	github.com/tinylib/msgp v1.6.1 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
+	github.com/zeebo/xxh3 v1.1.0 // indirect
 	go.yaml.in/yaml/v2 v2.4.3 // indirect
-	golang.org/x/crypto v0.45.0 // indirect
-	golang.org/x/net v0.47.0 // indirect
-	golang.org/x/sys v0.38.0 // indirect
-	golang.org/x/text v0.31.0 // indirect
+	go.yaml.in/yaml/v3 v3.0.4 // indirect
+	golang.org/x/crypto v0.46.0 // indirect
+	golang.org/x/net v0.48.0 // indirect
+	golang.org/x/sys v0.39.0 // indirect
+	golang.org/x/text v0.32.0 // indirect
 )
