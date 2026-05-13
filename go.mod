@@ -8,7 +8,7 @@ require (
 	github.com/charmbracelet/bubbletea v1.3.10
 	github.com/charmbracelet/lipgloss v1.1.1-0.20250404203927-76690c660834
 	github.com/cli/cli/v2 v2.83.1
-	github.com/google/go-jsonnet v0.21.0
+	github.com/google/go-jsonnet v0.22.0
 	github.com/minio/minio-go/v7 v7.0.97
 	github.com/passbolt/go-passbolt v0.7.2
 	golang.org/x/term v0.37.0
