@@ -19,15 +19,22 @@ type Config struct {
 
 // ConfigFile returns the path to the config file.
 // Also see ConfigDir().
-func ConfigFile() string {
-	return filepath.Join(ConfigDir(), configFile)
+func ConfigFile() (string, error) {
+	d, err := ConfigDir()
+	if err != nil {
+		return "", err
+	}
+	return filepath.Join(d, configFile), nil
 }
 
 func RetrieveConfig() (Config, error) {
 	configMux.RLock()
 	defer configMux.RUnlock()
 
-	configFile := ConfigFile()
+	configFile, err := ConfigFile()
+	if err != nil {
+		return Config{}, fmt.Errorf("error getting config file path: %w", err)
+	}
 
 	yamlFile, err := os.ReadFile(configFile)
 	if err != nil {
@@ -35,8 +42,7 @@ func RetrieveConfig() (Config, error) {
 	}
 
 	var config Config
-	yaml.Unmarshal([]byte(yamlFile), &config)
-	if err != nil {
+	if err := yaml.Unmarshal([]byte(yamlFile), &config); err != nil {
 		return Config{}, fmt.Errorf("error parsing config file %q: %w", configFile, err)
 	}
 
@@ -47,17 +53,21 @@ func SaveConfig(config Config) error {
 	configMux.Lock()
 	defer configMux.Unlock()
 
-	if err := os.MkdirAll(ConfigDir(), 0700); err != nil {
-		return fmt.Errorf("error creating config dir %q: %w", ConfigDir(), err)
+	configDir, err := ConfigDir()
+	if err != nil {
+		return fmt.Errorf("error getting config dir: %w", err)
 	}
 
-	configFile := filepath.Join(ConfigDir(), configFile)
+	if err := os.MkdirAll(configDir, 0700); err != nil {
+		return fmt.Errorf("error creating config dir %q: %w", configDir, err)
+	}
 
 	yamlFile, err := yaml.Marshal(config)
 	if err != nil {
 		return fmt.Errorf("error marshalling config: %w", err)
 	}
 
+	configFile := filepath.Join(configDir, configFile)
 	if err := os.WriteFile(configFile, yamlFile, 0600); err != nil {
 		return fmt.Errorf("error writing config file %q: %w", configFile, err)
 	}
