@@ -21,6 +21,10 @@
         "on the first day of the month"
       ],
       "automerge": true
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "groupName": "github actions dependencies"
     }
   ]
 }
