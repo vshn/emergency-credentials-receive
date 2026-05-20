@@ -17,7 +17,7 @@ const (
 
 // ConfigDir returns the path to the config directory.
 // Config path precedence: EMR_CONFIG_DIR, XDG_CONFIG_HOME, AppData (windows only), HOME.
-func ConfigDir() string {
+func ConfigDir() (string, error) {
 	var path string
 	if a := os.Getenv(EnvConfigDir); a != "" {
 		path = a
@@ -26,8 +26,11 @@ func ConfigDir() string {
 	} else if c := os.Getenv(appData); runtime.GOOS == "windows" && c != "" {
 		path = filepath.Join(c, configDirName)
 	} else {
-		d, _ := os.UserHomeDir()
+		d, err := os.UserHomeDir()
+		if err != nil {
+			return "", err
+		}
 		path = filepath.Join(d, ".config", configDirName)
 	}
-	return path
+	return path, nil
 }

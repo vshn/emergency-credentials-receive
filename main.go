@@ -90,7 +90,9 @@ func main() {
 
 	c, err := config.RetrieveConfig()
 	if err != nil && errors.Is(err, fs.ErrNotExist) {
-		lf("No config file found at %q.\n", config.ConfigFile())
+		// we already know the config file path can be determined, so we can directly print it here without risking another error
+		p, _ := config.ConfigFile()
+		lf("No config file found at %q.\n", p)
 		lln("File will be created after a successful login.")
 	} else if err != nil {
 		lln("Error retrieving config: ", err)
@@ -106,7 +108,8 @@ func main() {
 		c.PassboltKey = k
 	}
 	if c.PassboltKey == "" {
-		lf("Passbolt key cannot be empty. Please provide interactively or create a config file at %q:\n%s", config.ConfigFile(), sampleConfig)
+		p, _ := config.ConfigFile()
+		lf("Passbolt key cannot be empty. Please provide interactively or create a config file at %q:\n%s", p, sampleConfig)
 		os.Exit(1)
 	}
 
