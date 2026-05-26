@@ -1,5 +1,8 @@
 # emergency-credentials-receive
 
+⚠️ This tool has been deprecated in favor of the new all-in-one cluster access solution [kharon](https://github.com/vshn/kharon).
+Kharon reuses the configuration from this tool, it loads metadata from Lieutenant - no more needing to copy/paste cluster information, and it comes with a proxy to access clusters in private networks.
+
 Guided wizard to receive and decrypt cluster emergency credentials from VSHN Passbolt and our emergency credentials buckets.
 
 ## Usage
